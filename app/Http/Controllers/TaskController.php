@@ -5,23 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    // Affiche la liste des taches
+    // Affiche la liste des taches de l'utilisateur connecté
     public function index()
     {
         // Récupérer la liste des taches
-        $tasks = Task::where('user_id', auth()->id)->get();
-        
-        return view('index', compact('tasks'));
-    }
+        $tasks = Task::where('user_id', Auth::id())->get();
 
+        return view('index', compact('tasks'));
+
+    }
+    
     // affiche le formulaire de création de tache
     public function create()
     {
         //
-        return view('tasks.create');
+        return view('task.create');
         
     }
 
@@ -30,6 +32,7 @@ class TaskController extends Controller
     {
         // Validation des champs du formulaire
         $validated = $request->validate([
+            'title' => 'required',
             'user_id'=>'required'
         ]);
 
@@ -54,10 +57,10 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
 
         // permet de modifier une tache si elle appartient à l'utilisateur
-        if ($task->user_id == auth()->id) { 
-            return view('tasks.edit');
+        if ($task->user_id == Auth::id()) { 
+            return view('task.edit');
         } else {
-            return redirect()->route('tasks.edit');
+            return redirect()->route('task.edit');
         }
         
     }
@@ -69,7 +72,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
 
         // Changer l'état d'une tache si elle appartient à l'utilisateur
-        if ($task->user_id == auth()->id) { 
+        if ($task->user_id == Auth::id()) { 
             $task->update(['state' => 1]);
         }
         
@@ -84,7 +87,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
 
         // Requête pour supprimer la tache si elle appartient à l'utilisateur
-        if ($task->user_id == auth()->id) { 
+        if ($task->user_id == Auth::id()) { 
             $task->delete();
         }
         
