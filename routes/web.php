@@ -16,12 +16,12 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/auth', [AuthController::class, 'index'])->name('auth.index');
 
-    Route::get('/task', [TaskController::class, 'index'])->name('task.index');
-    Route::get('/task', [TaskController::class, 'create'])->name('task.create');
-    Route::get('/task/{id}', [TaskController::class, 'edit'])->name('task.edit'); //affiche le formulaire de modification à partir de l'id
-    Route::post('/task/{id}', [TaskController::class, 'store'])->name('task.store'); // enregistre à partir de l'id
-    Route::put('/task/{id}', [TaskController::class, 'update'])->name('task.update'); // met à jour à partir de l'id 
-    Route::delete('/tast/{id}', [TaskController::class, 'destroy'])->name('task.destroy'); // supprime à partir de l'id
+    Route::get('/dashboard/task', [TaskController::class, 'index'])->name('task.index');
+    // Route::get('/dashboard/task', [TaskController::class, 'create'])->name('task.create');
+    Route::get('/dashboard/task/{id}', [TaskController::class, 'edit'])->name('task.edit'); //affiche le formulaire de modification à partir de l'id
+    Route::post('/dashboard/task/{id}', [TaskController::class, 'store'])->name('task.store'); // enregistre à partir de l'id
+    Route::put('/dashboard/task/{id}', [TaskController::class, 'update'])->name('task.update'); // met à jour à partir de l'id 
+    Route::delete('/dashboard/task/{id}', [TaskController::class, 'destroy'])->name('task.destroy'); // supprime à partir de l'id
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
